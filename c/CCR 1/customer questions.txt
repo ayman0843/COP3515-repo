@@ -1,0 +1,5 @@
+Header/Footer Considerations: While Header/Footer Consistency comes into play in Example 1 (featuring a header, “Tampa Fitness Center,” and a footer containing “Thank you for joining!”), Example 2 has no header or footer. Is this a requirement that all receipts incorporate header and footer text?  
+
+First Name Restrictions: It states that only the customer’s “first name” is necessary. Are you suggesting that computing allows for the inclusion of a last name if it is provided?  
+
+Data Verifications: Should the software recognize numbers that are not valid (such as negative age and negative monthly fee) or can the company rely on employees’ valid entries in this version?
