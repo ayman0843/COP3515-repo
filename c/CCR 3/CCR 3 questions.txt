@@ -1,0 +1,8 @@
+What are the exact cutoffs between Child, Adult, and Senior? (I assumed Child = 0–12, Adult = 13–64, Senior = 65+, but this needs your confirmation.)
+Is there an upper limit on age that should be treated as "impossible" (e.g., over 120), or should any non-negative number be accepted no matter how large?
+Should age be a whole number only, or do you need to support decimals/fractions (e.g., for infants, "0.5")?
+Should an age of 0 be accepted as valid (e.g., for an infant), or should there be a minimum age accepted at all?
+Do you have a preference for how employees enter the day type (e.g., typing "Weekday"/"Weekend", or selecting a number/letter)?
+If an employee enters something other than a valid weekday/weekend option, should that be treated as an error the same way an invalid age is, or handled differently?
+Based on the examples given, day type doesn't change the ticket category, only price (which is out of scope). Can you confirm the category should be based on age alone for now?
+Should the output always say exactly "Child Ticket," "Adult Ticket," "Senior Ticket," or are variations acceptable?
