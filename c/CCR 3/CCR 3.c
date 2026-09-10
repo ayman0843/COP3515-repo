@@ -2,6 +2,7 @@
 
 int main(void) {
   int age;
+<<<<<<< HEAD
   int dayChoice;
 
   printf("Enter customer's age: ");
@@ -41,6 +42,52 @@ int main(void) {
       printf("Ticket Type  : Adult Ticket\n");
     else
       printf("Ticket Type  : Senior Ticket\n");
+=======
+  char dayType;
+
+  printf("Enter Customer Age: ");
+  if (scanf("%d", &age) != 1 || age < 0 || age > 120) {
+    printf("\n----------------------------------------\n");
+    printf("Grand Cinema Theater\n");
+    printf("Ticket Classification\n");
+    printf("----------------------------------------\n");
+    printf("Error\n");
+    printf("The customer's age is invalid.\n");
+    printf("Please enter a valid age.\n");
+    return 0;
+  }
+
+  printf("Enter Day Type (W = Weekday, E = Weekend): ");
+  if (scanf(" %c", &dayType) != 1 ||
+      (dayType != 'W' && dayType != 'w' && dayType != 'E' && dayType != 'e')) {
+    printf("\n----------------------------------------\n");
+    printf("Grand Cinema Theater\n");
+    printf("Ticket Classification\n");
+    printf("----------------------------------------\n");
+    printf("Error\n");
+    printf("The day type is invalid.\n");
+    printf("Please enter W for Weekday or E for Weekend.\n");
+    return 0;
+  }
+
+  printf("\n----------------------------------------\n");
+  printf("Grand Cinema Theater\n");
+  printf("Ticket Classification\n");
+  printf("----------------------------------------\n");
+  printf("Customer Age : %d\n", age);
+  if (dayType == 'W' || dayType == 'w') {
+    printf("Day Type : Weekday\n");
+  } else {
+    printf("Day Type : Weekend\n");
+  }
+
+  if (age <= 12) {
+    printf("Ticket Type : Child Ticket\n");
+  } else if (age <= 64) {
+    printf("Ticket Type : Adult Ticket\n");
+  } else {
+    printf("Ticket Type : Senior Ticket\n");
+>>>>>>> 6e6beeb (ccr3)
   }
 
   return 0;
