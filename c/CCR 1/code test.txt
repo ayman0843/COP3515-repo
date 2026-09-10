@@ -1,0 +1,31 @@
+Enter First Name (max 30 characters, no special characters except '): Enter Age (whole number): Enter Monthly Fee: 
+Tampa Fitness Center
+Membership Receipt
+Customer: Alice
+Age: 30
+Monthly Fee: $25.50
+Status: Standard Membership
+Thank you for joining!
+
+--- Senior case ---
+Enter First Name (max 30 characters, no special characters except '): Enter Age (whole number): Enter Monthly Fee: 
+Tampa Fitness Center
+Membership Receipt
+Customer: O'Neil
+Age: 65
+Monthly Fee: $0.00
+Status: Senior Program
+Thank you for joining!
+
+--- Invalid input case ---
+Enter First Name (max 30 characters, no special characters except '): Invalid input. Name cannot contain special characters (except '). Try again.
+Enter First Name (max 30 characters, no special characters except '): Enter Age (whole number): Invalid input. Please enter a realistic whole number (18-90).
+Enter Age (whole number): Enter Monthly Fee: Invalid input. Please enter a valid non-negative number.
+Enter Monthly Fee: 
+Tampa Fitness Center
+Membership Receipt
+Customer: Bob
+Age: 25
+Monthly Fee: $10.00
+Status: Standard Membership
+Thank you for joining!
