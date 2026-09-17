@@ -1,0 +1,7 @@
+As depicted in the first example scenario, the prompt for "More vehicles? Y" appears only after the hours of the third vehicle are entered.  Is it necessary for the program to prompt for additional vehicles between each vehicle entered? Is it better for them to surpass a determined number before being prompted? 
+
+Is it possible for staff to enter decimal/numerical values for the number of hours parked? 
+
+When the attendant enters zero or a negative value for the number of hours parked, how does the system behave? 
+
+If the worker activates the system, only to immediately report that there are no vehicles to process, how does the report for Average Parking fees avoid the issue of dividing by zero?
