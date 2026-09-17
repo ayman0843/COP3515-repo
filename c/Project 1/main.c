@@ -5,7 +5,7 @@ int main(void) {
   /* Constants */
   const char COURSE_TITLE[] = "Student Information Management System";
   const char PROGRAMMER_NAME[] = "Jane Smith";
-  const char VERSION_NUMBER[] = "2.0";
+  const char VERSION_NUMBER[] = "3.0";
 
   /* Named constant for the number of courses, using an enumeration */
   enum { NUM_COURSES = 5 };
@@ -15,6 +15,14 @@ int main(void) {
   char studentName[50];
   double currentGPA;
 
+  /* Academic standing categories (new in CCR-003) */
+  enum AcademicStanding {
+    HONORS,
+    GOOD_STANDING,
+    ACADEMIC_PROBATION,
+    ACADEMIC_SUSPENSION
+  } academicStanding;
+
   /* Array to hold the five course grades (new in CCR-002) */
   int grades[NUM_COURSES];
 
@@ -22,6 +30,8 @@ int main(void) {
   double averageGrade;
   int highestGrade;
   int lowestGrade;
+  char gradeInputEnding;
+  int gradeInputResult;
 
   /* Boolean variable (demonstrates required concept) */
   bool dataEntered = false;
@@ -46,23 +56,66 @@ int main(void) {
   printf("Enter Current GPA: ");
   scanf("%lf", &currentGPA);
 
+  /* ---- GPA Validation and Academic Standing (CCR-003) ---- */
+  if (currentGPA < 0.00 || currentGPA > 4.00) {
+    printf("\nERROR\n");
+    printf("Invalid GPA entered.\n");
+    printf("GPA must be between 0.00 and 4.00.\n");
+    return 1;
+  }
+
+  if (currentGPA >= 3.50) {
+    academicStanding = HONORS;
+  } else if (currentGPA >= 2.00) {
+    academicStanding = GOOD_STANDING;
+  } else if (currentGPA >= 1.00) {
+    academicStanding = ACADEMIC_PROBATION;
+  } else {
+    academicStanding = ACADEMIC_SUSPENSION;
+  }
+
   /* ---- Course Grade Entry (CCR-002) ---- */
   printf("\nCourse Grades\n");
 
   printf("Enter grade for Course 1: ");
-  scanf("%d", &grades[0]);
+  gradeInputResult = scanf("%d%c", &grades[0], &gradeInputEnding);
+  if (gradeInputResult != 2 || gradeInputEnding != '\n' || grades[0] < 0 ||
+      grades[0] > 100) {
+    printf("Invalid course grade. Enter a whole number from 0 to 100.\n");
+    return 1;
+  }
 
   printf("Enter grade for Course 2: ");
-  scanf("%d", &grades[1]);
+  gradeInputResult = scanf("%d%c", &grades[1], &gradeInputEnding);
+  if (gradeInputResult != 2 || gradeInputEnding != '\n' || grades[1] < 0 ||
+      grades[1] > 100) {
+    printf("Invalid course grade. Enter a whole number from 0 to 100.\n");
+    return 1;
+  }
 
   printf("Enter grade for Course 3: ");
-  scanf("%d", &grades[2]);
+  gradeInputResult = scanf("%d%c", &grades[2], &gradeInputEnding);
+  if (gradeInputResult != 2 || gradeInputEnding != '\n' || grades[2] < 0 ||
+      grades[2] > 100) {
+    printf("Invalid course grade. Enter a whole number from 0 to 100.\n");
+    return 1;
+  }
 
   printf("Enter grade for Course 4: ");
-  scanf("%d", &grades[3]);
+  gradeInputResult = scanf("%d%c", &grades[3], &gradeInputEnding);
+  if (gradeInputResult != 2 || gradeInputEnding != '\n' || grades[3] < 0 ||
+      grades[3] > 100) {
+    printf("Invalid course grade. Enter a whole number from 0 to 100.\n");
+    return 1;
+  }
 
   printf("Enter grade for Course 5: ");
-  scanf("%d", &grades[4]);
+  gradeInputResult = scanf("%d%c", &grades[4], &gradeInputEnding);
+  if (gradeInputResult != 2 || gradeInputEnding != '\n' || grades[4] < 0 ||
+      grades[4] > 100) {
+    printf("Invalid course grade. Enter a whole number from 0 to 100.\n");
+    return 1;
+  }
 
   dataEntered = true;
 
@@ -111,6 +164,17 @@ int main(void) {
     printf("Student Name : %s",
            studentName); /* fgets already keeps the trailing newline */
     printf("Current GPA  : %.2f\n", currentGPA);
+
+    printf("Academic Standing : ");
+    if (academicStanding == HONORS) {
+      printf("Honors\n");
+    } else if (academicStanding == GOOD_STANDING) {
+      printf("Good Standing\n");
+    } else if (academicStanding == ACADEMIC_PROBATION) {
+      printf("Academic Probation\n");
+    } else {
+      printf("Academic Suspension\n");
+    }
 
     printf("----------------------------------------\n");
     printf("Course Grades\n");
