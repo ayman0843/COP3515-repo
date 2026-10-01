@@ -271,7 +271,8 @@ int main(void) {
   printf("Course 5 : %d\n", savedGrades[4]);
   printf("----------------------------------------\n");
 
-  if (savedStudentID == studentID && strcmp(savedStudentName, studentName) == 0 &&
+  if (savedStudentID == studentID &&
+      strcmp(savedStudentName, studentName) == 0 &&
       savedGPA >= currentGPA - 0.005 && savedGPA <= currentGPA + 0.005 &&
       strcmp(savedAcademicStanding, academicStandingText) == 0) {
     verificationPassed = 1;
