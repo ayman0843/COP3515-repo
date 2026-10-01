@@ -1,21 +1,14 @@
-#include <stdbool.h>
 #include <stdio.h>
+#include <string.h>
 
 int main(void) {
-  /* Constants */
   const char COURSE_TITLE[] = "Student Information Management System";
   const char PROGRAMMER_NAME[] = "Jane Smith";
-  const char VERSION_NUMBER[] = "3.0";
+  const char VERSION_NUMBER[] = "4.0";
+  const char FILE_NAME[] = "student_record.txt";
 
-  /* Named constant for the number of courses, using an enumeration */
   enum { NUM_COURSES = 5 };
 
-  /* Variables to hold student data (from CCR-001) */
-  long studentID;
-  char studentName[50];
-  double currentGPA;
-
-  /* Academic standing categories (new in CCR-003) */
   enum AcademicStanding {
     HONORS,
     GOOD_STANDING,
@@ -23,20 +16,25 @@ int main(void) {
     ACADEMIC_SUSPENSION
   } academicStanding;
 
-  /* Array to hold the five course grades (new in CCR-002) */
+  long studentID;
+  char studentName[50];
+  double currentGPA;
   int grades[NUM_COURSES];
-
-  /* Variables to hold the grade summary calculations */
   double averageGrade;
   int highestGrade;
   int lowestGrade;
   char gradeInputEnding;
   int gradeInputResult;
+  const char *academicStandingText;
+  FILE *studentFile;
+  long savedStudentID;
+  char savedStudentName[50];
+  double savedGPA;
+  char savedAcademicStanding[30];
+  int savedGrades[NUM_COURSES];
+  int verificationPassed = 0;
+  char verificationAnswer;
 
-  /* Boolean variable (demonstrates required concept) */
-  bool dataEntered = false;
-
-  /* ---- Program Header ---- */
   printf("----------------------------------------\n");
   printf("%s\n", COURSE_TITLE);
   printf("Version %s\n", VERSION_NUMBER);
@@ -44,19 +42,17 @@ int main(void) {
   printf("\nWelcome to SIMS\n");
   printf("----------------------------------------\n\n");
 
-  /* ---- Student Data Entry (CCR-001) ---- */
   printf("Enter Student ID: ");
   scanf("%ld", &studentID);
-  getchar(); /* clears the leftover newline left behind by scanf */
+  getchar();
 
   printf("Enter Student Name: ");
-  fgets(studentName, sizeof(studentName),
-        stdin); /* reads full name, including spaces */
+  scanf("%49[^\n]", studentName);
+  getchar();
 
   printf("Enter Current GPA: ");
   scanf("%lf", &currentGPA);
 
-  /* ---- GPA Validation and Academic Standing (CCR-003) ---- */
   if (currentGPA < 0.00 || currentGPA > 4.00) {
     printf("\nERROR\n");
     printf("Invalid GPA entered.\n");
@@ -74,7 +70,21 @@ int main(void) {
     academicStanding = ACADEMIC_SUSPENSION;
   }
 
-  /* ---- Course Grade Entry (CCR-002) ---- */
+  switch (academicStanding) {
+  case HONORS:
+    academicStandingText = "Honors";
+    break;
+  case GOOD_STANDING:
+    academicStandingText = "Good Standing";
+    break;
+  case ACADEMIC_PROBATION:
+    academicStandingText = "Academic Probation";
+    break;
+  default:
+    academicStandingText = "Academic Suspension";
+    break;
+  }
+
   printf("\nCourse Grades\n");
 
   printf("Enter grade for Course 1: ");
@@ -117,15 +127,9 @@ int main(void) {
     return 1;
   }
 
-  dataEntered = true;
-
-  /* ---- Grade Calculations ---- */
-
-  /* Average grade */
   averageGrade =
       (grades[0] + grades[1] + grades[2] + grades[3] + grades[4]) / 5.0;
 
-  /* Highest and lowest grade, found using selection statements (no loops) */
   highestGrade = grades[0];
   lowestGrade = grades[0];
 
@@ -157,38 +161,159 @@ int main(void) {
     lowestGrade = grades[4];
   }
 
-  /* ---- Formatted Summary Output ---- */
-  if (dataEntered) {
-    printf("\nStudent Summary\n");
-    printf("Student ID   : %ld\n", studentID);
-    printf("Student Name : %s",
-           studentName); /* fgets already keeps the trailing newline */
-    printf("Current GPA  : %.2f\n", currentGPA);
-
-    printf("Academic Standing : ");
-    if (academicStanding == HONORS) {
-      printf("Honors\n");
-    } else if (academicStanding == GOOD_STANDING) {
-      printf("Good Standing\n");
-    } else if (academicStanding == ACADEMIC_PROBATION) {
-      printf("Academic Probation\n");
-    } else {
-      printf("Academic Suspension\n");
-    }
-
-    printf("----------------------------------------\n");
-    printf("Course Grades\n");
-    printf("Course 1 : %d\n", grades[0]);
-    printf("Course 2 : %d\n", grades[1]);
-    printf("Course 3 : %d\n", grades[2]);
-    printf("Course 4 : %d\n", grades[3]);
-    printf("Course 5 : %d\n", grades[4]);
-    printf("----------------------------------------\n");
-
-    printf("Average Grade : %.2f\n", averageGrade);
-    printf("Highest Grade : %d\n", highestGrade);
-    printf("Lowest Grade  : %d\n", lowestGrade);
+  studentFile = fopen(FILE_NAME, "w");
+  if (studentFile == NULL) {
+    printf("\nERROR\n");
+    printf("Unable to open %s for writing.\n", FILE_NAME);
+    return 1;
   }
+
+  fprintf(studentFile, "%ld\n", studentID);
+  fprintf(studentFile, "%s\n", studentName);
+  fprintf(studentFile, "%.2f\n", currentGPA);
+  fprintf(studentFile, "%s\n", academicStandingText);
+  fprintf(studentFile, "%d\n", grades[0]);
+  fprintf(studentFile, "%d\n", grades[1]);
+  fprintf(studentFile, "%d\n", grades[2]);
+  fprintf(studentFile, "%d\n", grades[3]);
+  fprintf(studentFile, "%d\n", grades[4]);
+
+  if (fclose(studentFile) != 0) {
+    printf("\nERROR\n");
+    printf("Unable to close %s.\n", FILE_NAME);
+    return 1;
+  }
+
+  printf("\nStudent information saved to %s\n", FILE_NAME);
+
+  studentFile = fopen(FILE_NAME, "r");
+  if (studentFile == NULL) {
+    printf("\nERROR\n");
+    printf("Unable to open %s for reading.\n", FILE_NAME);
+    return 1;
+  }
+
+  if (fscanf(studentFile, "%ld", &savedStudentID) != 1) {
+    printf("\nERROR\n");
+    printf("Unable to read student ID from %s.\n", FILE_NAME);
+    fclose(studentFile);
+    return 1;
+  }
+  fscanf(studentFile, " \n");
+  if (fscanf(studentFile, "%49[^\n]", savedStudentName) != 1) {
+    printf("\nERROR\n");
+    printf("Unable to read student name from %s.\n", FILE_NAME);
+    fclose(studentFile);
+    return 1;
+  }
+  fscanf(studentFile, " \n");
+  if (fscanf(studentFile, "%lf", &savedGPA) != 1) {
+    printf("\nERROR\n");
+    printf("Unable to read GPA from %s.\n", FILE_NAME);
+    fclose(studentFile);
+    return 1;
+  }
+  fscanf(studentFile, " \n");
+  if (fscanf(studentFile, "%29[^\n]", savedAcademicStanding) != 1) {
+    printf("\nERROR\n");
+    printf("Unable to read academic standing from %s.\n", FILE_NAME);
+    fclose(studentFile);
+    return 1;
+  }
+  fscanf(studentFile, " \n");
+  if (fscanf(studentFile, "%d", &savedGrades[0]) != 1) {
+    printf("\nERROR\n");
+    printf("Unable to read course grade 1 from %s.\n", FILE_NAME);
+    fclose(studentFile);
+    return 1;
+  }
+  if (fscanf(studentFile, "%d", &savedGrades[1]) != 1) {
+    printf("\nERROR\n");
+    printf("Unable to read course grade 2 from %s.\n", FILE_NAME);
+    fclose(studentFile);
+    return 1;
+  }
+  if (fscanf(studentFile, "%d", &savedGrades[2]) != 1) {
+    printf("\nERROR\n");
+    printf("Unable to read course grade 3 from %s.\n", FILE_NAME);
+    fclose(studentFile);
+    return 1;
+  }
+  if (fscanf(studentFile, "%d", &savedGrades[3]) != 1) {
+    printf("\nERROR\n");
+    printf("Unable to read course grade 4 from %s.\n", FILE_NAME);
+    fclose(studentFile);
+    return 1;
+  }
+  if (fscanf(studentFile, "%d", &savedGrades[4]) != 1) {
+    printf("\nERROR\n");
+    printf("Unable to read course grade 5 from %s.\n", FILE_NAME);
+    fclose(studentFile);
+    return 1;
+  }
+
+  if (fclose(studentFile) != 0) {
+    printf("\nERROR\n");
+    printf("Unable to close %s after reading.\n", FILE_NAME);
+    return 1;
+  }
+
+  printf("\nRecovered Student Record\n");
+  printf("Student ID   : %ld\n", savedStudentID);
+  printf("Student Name : %s\n", savedStudentName);
+  printf("Current GPA : %.2f\n", savedGPA);
+  printf("Academic Standing : %s\n", savedAcademicStanding);
+  printf("----------------------------------------\n");
+  printf("Course 1 : %d\n", savedGrades[0]);
+  printf("Course 2 : %d\n", savedGrades[1]);
+  printf("Course 3 : %d\n", savedGrades[2]);
+  printf("Course 4 : %d\n", savedGrades[3]);
+  printf("Course 5 : %d\n", savedGrades[4]);
+  printf("----------------------------------------\n");
+
+  if (savedStudentID == studentID && strcmp(savedStudentName, studentName) == 0 &&
+      savedGPA >= currentGPA - 0.005 && savedGPA <= currentGPA + 0.005 &&
+      strcmp(savedAcademicStanding, academicStandingText) == 0) {
+    verificationPassed = 1;
+  }
+
+  if (savedGrades[0] != grades[0] || savedGrades[1] != grades[1] ||
+      savedGrades[2] != grades[2] || savedGrades[3] != grades[3] ||
+      savedGrades[4] != grades[4]) {
+    verificationPassed = 0;
+  }
+
+  printf("Does the recovered information match the original record? (Y/N): ");
+  scanf(" %c", &verificationAnswer);
+  getchar();
+
+  if (verificationAnswer == 'Y' || verificationAnswer == 'y') {
+    verificationPassed = 1;
+  }
+
+  printf("\nVerification Result: ");
+  if (verificationPassed == 1) {
+    printf("PASS\n");
+  } else {
+    printf("FAIL\n");
+  }
+
+  printf("\nStudent Summary\n");
+  printf("Student ID   : %ld\n", studentID);
+  printf("Student Name : %s\n", studentName);
+  printf("Current GPA  : %.2f\n", currentGPA);
+  printf("Academic Standing : %s\n", academicStandingText);
+  printf("----------------------------------------\n");
+  printf("Course Grades\n");
+  printf("Course 1 : %d\n", grades[0]);
+  printf("Course 2 : %d\n", grades[1]);
+  printf("Course 3 : %d\n", grades[2]);
+  printf("Course 4 : %d\n", grades[3]);
+  printf("Course 5 : %d\n", grades[4]);
+  printf("----------------------------------------\n");
+  printf("Average Grade : %.2f\n", averageGrade);
+  printf("Highest Grade : %d\n", highestGrade);
+  printf("Lowest Grade  : %d\n", lowestGrade);
 
   return 0;
 }

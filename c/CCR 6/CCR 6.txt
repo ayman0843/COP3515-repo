@@ -1,0 +1,4 @@
+The example receipts have dashed lines of different lengths (40 and 31 characters). Is that intentional, or should they all be the same width?
+Should the dollar amounts line up in a column, for example right-aligned with the decimal points matching?
+What should happen if the employee enters a negative number or zero?
+Can the amount include cents, or are there orders in whole dollars only?

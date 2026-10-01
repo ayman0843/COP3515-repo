@@ -1,0 +1,4 @@
+Can the current inventory or quantity purchased ever be zero, or must they be positive numbers?
+What should happen if the employee accidentally enters a negative number?
+What should happen if the quantity purchased is greater than the current inventory (i.e., the sale would make inventory negative)? Should that be allowed, or should the employee be warned?
+Should inventory quantities allow decimals (e.g., for items sold by weight), or are all products sold in whole units?
