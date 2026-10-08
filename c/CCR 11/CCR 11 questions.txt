@@ -1,0 +1,7 @@
+Do spaces count as characters?
+
+What if two presenters tie for the longest name? Should the program show the first one, the last one, or all of them?
+
+What if a name is blank ("")? Should it be listed, skipped, or treated as an error?
+
+What should happen if no names are supplied? Should it print a usage message and exit, or print a report with 0 presenters?
