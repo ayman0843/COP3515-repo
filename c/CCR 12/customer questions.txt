@@ -1,0 +1,6 @@
+What is the valid range for a survey score (for example 0–100, 1–10, or 1–5)? Should the program reject scores outside that range?
+Can a score have decimals (such as 4.5), or are scores always whole numbers?
+What should happen if an employee types something that isn’t a number: ask again for that same score, or stop the program?
+What is the largest number of responses you expect? Is there a limit above which the program should warn the employee or refuse?
+If the employee enters 0 or a negative number of scores, should the program ask again or exit with a message?
+How should the average be rounded: always two decimal places, as in the examples? Should 97.665 show as 97.67 or 97.66?
