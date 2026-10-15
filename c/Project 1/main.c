@@ -2,6 +2,7 @@
 #include <string.h>
 
 #define NUM_COURSES 5
+#define MAX_STUDENTS 1000
 
 enum AcademicStanding {
   HONORS,
@@ -12,7 +13,7 @@ enum AcademicStanding {
 
 const char COURSE_TITLE[] = "Student Information Management System";
 const char PROGRAMMER_NAME[] = "Jane Smith";
-const char VERSION_NUMBER[] = "6.0";
+const char VERSION_NUMBER[] = "7.0";
 const char FILE_NAME[] = "student_record.txt";
 
 long studentID = 0;
@@ -22,20 +23,15 @@ int grades[NUM_COURSES];
 double averageGrade = 0.0;
 int highestGrade = 0;
 int lowestGrade = 0;
-char gradeInputEnding;
-int gradeInputResult;
-const char *academicStandingText = "Not Set";
-FILE *studentFile;
-long savedStudentID;
-char savedStudentName[50] = "";
-double savedGPA;
-char savedAcademicStanding[30] = "";
-int savedGrades[NUM_COURSES];
-int verificationPassed = 0;
-char verificationAnswer;
-int menuChoice = 0;
 int studentDataEntered = 0;
 int gradesEntered = 0;
+char academicStandingText[30] = "Not Set";
+int totalStudentsEntered = 0;
+double totalGPA = 0.0;
+int honorsStudentCount = 0;
+long studentIDs[MAX_STUDENTS];
+double studentGPAs[MAX_STUDENTS];
+int studentHonors[MAX_STUDENTS];
 
 void displayProgramHeader(void) {
   printf("----------------------------------------\n");
@@ -53,6 +49,7 @@ void displayMainMenu(void) {
   printf("3. Enter Grades\n");
   printf("4. Save Student Record\n");
   printf("5. Exit Program\n\n");
+  printf("6. Display Statistics\n\n");
   printf("Selection: ");
 }
 
@@ -70,14 +67,29 @@ int determineAcademicStanding(double gpa) {
 
 void setAcademicStandingText(int standing) {
   if (standing == HONORS) {
-    academicStandingText = "Honors";
+    strcpy(academicStandingText, "Honors");
   } else if (standing == GOOD_STANDING) {
-    academicStandingText = "Good Standing";
+    strcpy(academicStandingText, "Good Standing");
   } else if (standing == ACADEMIC_PROBATION) {
-    academicStandingText = "Academic Probation";
+    strcpy(academicStandingText, "Academic Probation");
   } else {
-    academicStandingText = "Academic Suspension";
+    strcpy(academicStandingText, "Academic Suspension");
   }
+}
+
+void displayStatistics(void) {
+  double averageGPA = 0.0;
+
+  if (totalStudentsEntered > 0) {
+    averageGPA = totalGPA / totalStudentsEntered;
+  }
+
+  printf("----------------------------------------\n");
+  printf("SIMS Statistics\n");
+  printf("----------------------------------------\n\n");
+  printf("Total Students Entered : %d\n\n", totalStudentsEntered);
+  printf("Average GPA            : %.2f\n\n", averageGPA);
+  printf("Honor Students         : %d\n\n", honorsStudentCount);
 }
 
 void calculateGradeStatistics(void) {
@@ -96,6 +108,9 @@ void calculateGradeStatistics(void) {
 }
 
 int enterStudentInformation(void) {
+  int academicStanding;
+  int studentIndex;
+
   printf("Enter Student ID: ");
   scanf("%ld", &studentID);
   getchar();
@@ -116,8 +131,44 @@ int enterStudentInformation(void) {
     return 0;
   }
 
-  setAcademicStandingText(determineAcademicStanding(currentGPA));
+  academicStanding = determineAcademicStanding(currentGPA);
+  setAcademicStandingText(academicStanding);
+
+  studentIndex = 0;
+  while (studentIndex < totalStudentsEntered &&
+         studentIDs[studentIndex] != studentID) {
+    studentIndex++;
+  }
+
+  if (studentIndex < totalStudentsEntered) {
+    totalGPA += currentGPA - studentGPAs[studentIndex];
+    if (studentHonors[studentIndex] == 1 && academicStanding != HONORS) {
+      honorsStudentCount--;
+    } else if (studentHonors[studentIndex] == 0 &&
+               academicStanding == HONORS) {
+      honorsStudentCount++;
+    }
+    studentGPAs[studentIndex] = currentGPA;
+    studentHonors[studentIndex] = academicStanding == HONORS;
+  } else {
+    if (totalStudentsEntered == MAX_STUDENTS) {
+      printf("\nERROR\n");
+      printf("Maximum number of unique students reached.\n");
+      studentDataEntered = 0;
+      return 0;
+    }
+
+    studentIDs[totalStudentsEntered] = studentID;
+    studentGPAs[totalStudentsEntered] = currentGPA;
+    studentHonors[totalStudentsEntered] = academicStanding == HONORS;
+    totalStudentsEntered++;
+    totalGPA += currentGPA;
+    if (academicStanding == HONORS) {
+      honorsStudentCount++;
+    }
+  }
   studentDataEntered = 1;
+  gradesEntered = 0;
   printf("Student information added successfully.\n");
   return 1;
 }
@@ -152,6 +203,9 @@ void displayStudentReport(void) {
 }
 
 int enterCourseGrades(void) {
+  char gradeInputEnding;
+  int gradeInputResult;
+
   if (studentDataEntered == 0) {
     printf("Please add the student before entering grades.\n");
     return 0;
@@ -177,6 +231,15 @@ int enterCourseGrades(void) {
 }
 
 int readStudentRecord(void) {
+  FILE *studentFile;
+  long savedStudentID;
+  char savedStudentName[50] = "";
+  double savedGPA;
+  char savedAcademicStanding[30] = "";
+  int savedGrades[NUM_COURSES];
+  int verificationPassed = 0;
+  char verificationAnswer;
+
   studentFile = fopen(FILE_NAME, "r");
   if (studentFile == NULL) {
     printf("\nERROR\n");
@@ -294,6 +357,8 @@ int readStudentRecord(void) {
 }
 
 int saveStudentRecord(void) {
+  FILE *studentFile;
+
   if (studentDataEntered == 0) {
     printf("Please add the student before saving.\n");
     return 0;
@@ -345,6 +410,9 @@ int processMenuSelection(int selection) {
     case 5:
       printf("Exiting SIMS. Goodbye.\n");
       return 0;
+    case 6:
+      displayStatistics();
+      return 1;
     default:
       printf("Invalid selection. Please choose a valid menu option.\n");
       return 1;
@@ -352,7 +420,10 @@ int processMenuSelection(int selection) {
 }
 
 int main(void) {
+  int menuChoice = 0;
+
   displayProgramHeader();
+  displayStatistics();
 
   while (menuChoice != 5) {
     displayMainMenu();
