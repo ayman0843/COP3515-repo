@@ -1,0 +1,8 @@
+What numbers should the first process generate: a fixed sequence, random values, or a counting pattern like 1 to N? What range should they fall in?
+How many numbers should be generated? Both examples show a different count (10 and 5), so should this be fixed or adjustable?
+Should the user be able to choose the count or range when starting the program, for example with a command-line option?
+Which “summary statistics” do you need? The examples show count, minimum, maximum and average. Do you also want the sum, median or standard deviation?
+Should the numbers be whole numbers, decimals, or both? Does the average always need two decimal places?
+The text says the report appears after both processes finish, but Example 1 prints it before the “Finished” messages. Which order do you want?
+Which process should be the “first” one (generating) and which the “second” (calculating)? Should the parent or the child do each job?
+Should the generated numbers also be displayed, or only the final statistics?
