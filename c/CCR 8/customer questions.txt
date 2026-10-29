@@ -1,0 +1,6 @@
+What is the valid range for an original grade? Is 0–100 correct, or can grades go above 100?
+Can the corrected grade go above 100? For example, should 98 plus 5 extra credit show 103, or be capped at 100?
+Can extra credit be negative, for example to remove points, or only zero and up?
+Are grades and extra credit always whole numbers, or can they have decimals such as 87.5?
+Can a grade be below 0, or can the extra credit be 0 (as in Scenario 3)?
+What should the program do if the teacher enters invalid input, such as letters or a blank? Should it ask again or stop with a message?
