@@ -1,0 +1,5 @@
+Should the employee enter full names, first names only, or either? Is there a maximum length?
+If the same name is entered twice (two guests named “John Smith”), should the program allow it, warn the employee, or reject it?
+If a name is left blank, is re-asking the right behavior, or should blank entries be ignored?
+Should names be shown exactly as typed, or standardized (for example, “alice johnson” becomes “Alice Johnson”)?
+Besides Y and N, should the program accept “yes”/”no” or other answers? What should it do when the answer is invalid?

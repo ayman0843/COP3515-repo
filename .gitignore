@@ -11,3 +11,7 @@ target/
 *.pdb
 
 .vscode/*.log
+
+# Added by cargo
+
+/target

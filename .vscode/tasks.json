@@ -1,101 +1,81 @@
 {
     "version": "2.0.0",
-
     "tasks": [
-
-        //////////////////////////////////////////////////////////////////////
-//
-// C PROGRAMMING
-//
-//////////////////////////////////////////////////////////////////////
-
-{
-    "label": "Build Current C File",
-    "type": "shell",
-    "command": "gcc",
-    "args": [
-        "-g",
-        "${file}",
-        "-o",
-        "${fileDirname}/${fileBasenameNoExtension}"
-    ],
-    "options": {
-        "cwd": "${fileDirname}"
-    },
-    "group": "build",
-    "problemMatcher": [
-        "$gcc"
-    ]
-},
-
-{
-    "label": "Run C Project",
-    "type": "shell",
-    "command": "make",
-    "args": [
-        "run"
-    ],
-    "options": {
-        "cwd": "${fileDirname}"
-    },
-    "dependsOn": "Build C Project"
-},
-
-{
-    "label": "Format C Project",
-    "type": "shell",
-    "command": "make",
-    "args": [
-        "format"
-    ],
-    "options": {
-        "cwd": "${fileDirname}"
-    }
-},
-
-{
-    "label": "Lint C Project",
-    "type": "shell",
-    "command": "make",
-    "args": [
-        "lint"
-    ],
-    "options": {
-        "cwd": "${fileDirname}"
-    }
-},
-
-{
-    "label": "Run Valgrind",
-    "type": "shell",
-    "command": "make",
-    "args": [
-        "valgrind"
-    ],
-    "options": {
-        "cwd": "${fileDirname}"
-    },
-    "dependsOn": "Build C Project"
-},
-
-{
-    "label": "Clean C Project",
-    "type": "shell",
-    "command": "make",
-    "args": [
-        "clean"
-    ],
-    "options": {
-        "cwd": "${fileDirname}"
-    }
-},
-
-        //////////////////////////////////////////////////////////////////////
-        //
-        // RUST PROGRAMMING
-        //
-        //////////////////////////////////////////////////////////////////////
-
+        {
+            "label": "Build Current C File",
+            "type": "shell",
+            "command": "gcc",
+            "args": [
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "group": "build",
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "label": "Run C Project",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "run"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "dependsOn": "Build C Project"
+        },
+        {
+            "label": "Format C Project",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "format"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            }
+        },
+        {
+            "label": "Lint C Project",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "lint"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            }
+        },
+        {
+            "label": "Run Valgrind",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "valgrind"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "dependsOn": "Build C Project"
+        },
+        {
+            "label": "Clean C Project",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "clean"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            }
+        },
         {
             "label": "Build Current Rust Project",
             "type": "shell",
@@ -111,7 +91,6 @@
                 "$rustc"
             ]
         },
-
         {
             "label": "Run Current Rust Project",
             "type": "shell",
@@ -124,7 +103,6 @@
                 "cwd": "${fileDirname}/.."
             }
         },
-
         {
             "label": "Test Current Rust Project",
             "type": "shell",
@@ -136,7 +114,6 @@
                 "cwd": "${fileDirname}/.."
             }
         },
-
         {
             "label": "Check Current Rust Project",
             "type": "shell",
@@ -148,7 +125,6 @@
                 "cwd": "${fileDirname}/.."
             }
         },
-
         {
             "label": "Run Clippy",
             "type": "shell",
@@ -160,7 +136,6 @@
                 "cwd": "${fileDirname}/.."
             }
         },
-
         {
             "label": "Format Current Rust Project",
             "type": "shell",
@@ -172,7 +147,6 @@
                 "cwd": "${fileDirname}/.."
             }
         },
-
         {
             "label": "Build Rust Release",
             "type": "shell",
@@ -185,19 +159,11 @@
                 "cwd": "${fileDirname}/.."
             }
         },
-
-        //////////////////////////////////////////////////////////////////////
-        //
-        // PROJECT-WIDE
-        //
-        //////////////////////////////////////////////////////////////////////
-
         {
             "label": "Generate Documentation",
             "type": "shell",
             "command": "doxygen"
         },
-
         {
             "label": "Clean C Project",
             "type": "shell",
@@ -206,7 +172,6 @@
                 "clean"
             ]
         },
-
         {
             "label": "Clean Rust Project",
             "type": "shell",
@@ -218,13 +183,6 @@
                 "cwd": "${fileDirname}/.."
             }
         },
-
-        //////////////////////////////////////////////////////////////////////
-        //
-        // DOCKER
-        //
-        //////////////////////////////////////////////////////////////////////
-
         {
             "label": "Rebuild Dev Container",
             "type": "shell",
@@ -232,9 +190,11 @@
             "args": [
                 "compose",
                 "build"
+            ],
+            "problemMatcher": [
+                "$rustc"
             ]
         },
-
         {
             "label": "Start Dev Container",
             "type": "shell",
@@ -243,9 +203,11 @@
                 "compose",
                 "up",
                 "-d"
+            ],
+            "problemMatcher": [
+                "$gcc"
             ]
         },
-
         {
             "label": "Stop Dev Container",
             "type": "shell",

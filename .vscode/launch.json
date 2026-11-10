@@ -13,9 +13,15 @@
             "name": "Debug Current Rust Project",
             "type": "lldb",
             "request": "launch",
-            "program": "${workspaceFolder}/target/debug/${fileDirnameBasename}",
+            "cargo": {
+                "args": [
+                    "build"
+                ],
+                "filter": {
+                    "kind": "bin"
+                }
+            },
             "cwd": "${workspaceFolder}",
-            "preLaunchTask": "Build Current Rust Project",
             "sourceLanguages": [
                 "rust"
             ],
