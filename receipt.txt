@@ -1,0 +1,7 @@
+USF Bookstore
+Items: 0
+Subtotal: $0.00
+Discount: $0.00
+Tax: $0.00
+Final total: $0.00
+Most expensive: N/A
