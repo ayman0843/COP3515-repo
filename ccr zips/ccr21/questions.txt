@@ -1,0 +1,6 @@
+When you say “a selected group of patients,” do you always mean a continuous range like patients 2 through 5? Or might staff want a non-adjacent group, such as patients 1, 4 and 7?
+Should the range numbers count from 1, with both ends included (“2 through 3” shows two patients)?
+If someone enters a range that doesn’t exist (start after end, or past the last patient), should the program ask again or show an error and exit?
+What format can a Patient ID take? Only digits, or letters too? Are leading zeros possible, and must IDs be unique within a day?
+Is temperature always Fahrenheit? Should the program reject impossible values (for example, 20 or 200), and what range counts as valid?
+How should blood pressure be entered and validated? Is it always “systolic/diastolic” like 118/76, and should the program reject text without a slash?
